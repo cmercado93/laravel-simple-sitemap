@@ -114,7 +114,7 @@ class SiteMapController
 
         $str = ($url['schema'] ?? 'http://') . $url['host'];
 
-        if (is_null($url['port'] ?? null)) {
+        if (isset($url['port'])) {
             $str .= ':' . $url['port'];
         }
 
