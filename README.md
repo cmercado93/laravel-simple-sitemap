@@ -14,7 +14,7 @@ Instala la librería mediante Composer:
 composer require cmercado93/laravel-simple-sitemap
 ```
 
-## #Forma de uso
+### Forma de uso
 
 Para usarlo simplemente hay que agregar el método `sitemap` a la definición de la ruta.
 
@@ -22,6 +22,7 @@ Para usarlo simplemente hay que agregar el método `sitemap` a la definición de
 ```php
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use Cmercado93\LaravelSimpleSitemap\Common\Frequency;
 
@@ -33,19 +34,27 @@ Route::get('/', function () {
         'frequency' => Frequency::WEEKLY,
         'last_update' => '2024-01-01',
     ]);
+
+Route::get('/test', [TestController::class, 'test'])
+    ->sitemap()
+    ->name('test');
 ```
 
 ### Resultado del ejemplo anterior
 
 El sitemap se mostrara al ingresar a la URL `http://mi.sitio/sitemap.xml`
+Cada una de las entradas del `sitemap.xml` estan ordenadas por su prioridad, de mayor a menor.
 
 ```xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://mi.sitio/</loc>
     <lastmod>2024-01-01T00:00:00+00:00</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://mi.sitio/test</loc>
   </url>
 </urlset>
 ```
@@ -65,6 +74,13 @@ El método `sitemap` facilita la inclusión de una entrada en el archivo de sali
 - `last_update` *(opcional)*:
   - Definición: Fecha de la última modificación de la ruta.
   - Tipo: Cadena de texto con formato `Y-m-d` u objeto que implemente la interfaz `\DateTimeInterface`.
+
+- `parameters` *(opcional)*:
+  - Descripción: Permite especificar los parámetros necesarios para construir la URL de la ruta en el `sitemap.xml`. Además, podes incluir parámetros extra para la query de la URL.
+  - Tipo: Arreglo asociativo.
+  - Ejemplo: ['param1' => 'value1', 'param2' => 'value2', 'extra_param' => 'extra_value'].
+
+En caso de que alguno de los datos ingresados no sea valido se lanzara una excepción `Cmercado93\LaravelSimpleSitemap\Common\SitemapException`.
 
 ### Licencia
 Distribuido bajo la licencia MIT. Vea `LICENSE.md` para más información.
