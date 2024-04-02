@@ -23,7 +23,10 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.1",
+        "illuminate/http": "^5.8",
+        "illuminate/routing": "^5.8",
+        "illuminate/support": "^5.8"
     },
     "extra": {
         "laravel": {
