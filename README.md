@@ -2,11 +2,9 @@
 
 Esta librería simplifica la creación de un archivo `sitemap.xml` utilizando directamente los datos proporcionados en la definición de las rutas.
 
-### Instalación:
+Fue probado en Laravel [5.8](https://laravel.com/docs/5.8), [6.x](https://laravel.com/docs/6.x), [7.x](https://laravel.com/docs/7.x), [8.x](https://laravel.com/docs/8.x), [9.x](https://laravel.com/docs/9.x), [10.x](https://laravel.com/docs/10.x), [11.x](https://laravel.com/docs/11.x)
 
-> Requisitos
-- [PHP 7.1.3+](https://php.net/releases/)
-- [Laravel 5.8+](https://github.com/laravel/laravel)
+### Instalación:
 
 Instala la librería mediante Composer:
 
