@@ -70,7 +70,7 @@ class SiteMapControllerTest extends TestCase
         ];
 
         $this->expectException(\ErrorException::class);
-        $this->expectExceptionMessage('Undefined index: url');
+        $this->expectExceptionMessageMatches('/\bundefined\b.*\burl\b|\burl\b.*\bundefined\b/mi');
 
         $result = $this->invokeProtectedMethod('makeSiteMap', $urls);
 
