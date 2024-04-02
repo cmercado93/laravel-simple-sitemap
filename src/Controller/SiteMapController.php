@@ -5,7 +5,6 @@ namespace Cmercado93\LaravelSimpleSitemap\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\RouteCollection;
 use Cmercado93\LaravelSimpleSitemap\Common\Url;
