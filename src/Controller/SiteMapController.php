@@ -111,20 +111,22 @@ class SiteMapController
     {
         $url = parse_url($url);
 
-        $str = ($url['schema'] ?? 'http://') . $url['host'];
+        $scheme = $url['scheme'] ?? 'http';
 
-        if (isset($url['port'])) {
+        $str = "{$scheme}://{$url['host']}";
+
+        if (isset($url['port']) && !in_array($url['port'], [80, 443])) {
             $str .= ':' . $url['port'];
         }
 
         if (isset($url['path'])) {
-            $str .= htmlentities($url['path']);
+            $pathSegments = explode('/', ltrim($url['path'], '/'));
+            $str .= '/' . implode('/', array_map('rawurlencode', $pathSegments));
         } else {
             $str .= '/';
         }
 
         if (isset($url['query'])) {
-            $str = trim($str, '/');
             $str .= '?' . htmlentities($url['query']);
         }
 
