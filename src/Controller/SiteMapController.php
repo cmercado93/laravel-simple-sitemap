@@ -29,7 +29,7 @@ class SiteMapController
         $urls = $this->getRoutes($request);
         $siteMapXml = $this->makeSiteMap($urls);
 
-        return new Response($siteMapXml ?? "", 200, ['Content-Type' => 'text/xml']);
+        return new Response($siteMapXml, 200, ['Content-Type' => 'text/xml']);
     }
 
     /**
@@ -43,17 +43,12 @@ class SiteMapController
      *
      * @return string|null
      */
-    protected function makeSiteMap(array $urls) : ?string
+    protected function makeSiteMap(array $urls) : string
     {
         $sitemap = new SiteMap();
 
         $urls = collect($urls)->sortByDesc('priority');
 
-        if ($urls->isEmpty()) {
-            return null;
-        }
-
-        // creamos cada linea del sitemap
         foreach ($urls as $url) {
             $sitemapUrl = Url::create($url['url'])
                 ->frequency($url['frequency'] ?? null)
@@ -121,7 +116,8 @@ class SiteMapController
 
         if (isset($url['path'])) {
             $pathSegments = explode('/', ltrim($url['path'], '/'));
-            $str .= '/' . implode('/', array_map('rawurlencode', $pathSegments));
+            // rawurldecode primero para evitar doble codificación de segmentos ya codificados por UrlGenerator.
+            $str .= '/' . implode('/', array_map(fn($seg) => rawurlencode(rawurldecode($seg)), $pathSegments));
         } else {
             $str .= '/';
         }

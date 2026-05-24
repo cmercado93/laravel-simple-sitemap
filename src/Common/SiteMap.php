@@ -11,6 +11,8 @@ class SiteMap
      *
      * @var string
      */
+    const XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8"?>';
+
     const START_TAG = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
     /**
@@ -45,6 +47,6 @@ class SiteMap
      */
     public function build() : string
     {
-        return static::START_TAG . implode("", $this->content) . static::END_TAG;
+        return static::XML_DECLARATION . static::START_TAG . implode("", $this->content) . static::END_TAG;
     }
 }

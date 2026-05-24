@@ -44,25 +44,19 @@ class Validations
 
     public static function validateParameters($parameters)
     {
-        $result = true;
-
-        if (is_array($parameters) && count($parameters)) {
-            if (array_is_list($parameters) || !is_scalar(array_values($parameters)[0])) {
-                $result = false;
-            }
-        } else {
-            $result = false;
+        if (!is_array($parameters) || !count($parameters) || array_is_list($parameters)) {
+            throw new SitemapException("Sitemap: Los parámetros deben ser un array valido");
         }
 
-        if (!$result) {
-            throw new SitemapException("Sitemap: Los parámetros deben ser un array valido");
+        foreach ($parameters as $value) {
+            if (!is_scalar($value)) {
+                throw new SitemapException("Sitemap: Los parámetros deben ser un array valido");
+            }
         }
     }
 
     public static function validateLastUpdate($lastUpdate)
     {
-        $result = true;
-
         if (is_string($lastUpdate)) {
             if ($dateTime = DateTime::createFromFormat('Y-m-d', $lastUpdate)) {
                 if ($dateTime->format('Y-m-d') == $lastUpdate) {
@@ -77,15 +71,12 @@ class Validations
             }
         }
 
-        if ($lastUpdate instanceof DateTimeInterface) {
-            if ($lastUpdate->format('U') <= 0) {
-                $result = false;
-            }
-        } else {
-            $result = false;
+        if (!($lastUpdate instanceof DateTimeInterface)) {
+            throw new SitemapException("Sitemap: La fecha de última actualización no es válida");
         }
 
-        if (!$result) {
+        // PHP parsea fechas como '0000-00-00' sin error; este chequeo las descarta.
+        if ($lastUpdate->format('U') <= 0) {
             throw new SitemapException("Sitemap: La fecha de última actualización no es válida");
         }
     }
