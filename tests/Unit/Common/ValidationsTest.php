@@ -5,6 +5,7 @@ namespace Cmercado93\LaravelSimpleSitemap\Tests\Unit\Common;
 use Cmercado93\LaravelSimpleSitemap\Common\SitemapException;
 use Cmercado93\LaravelSimpleSitemap\Common\Validations;
 use Cmercado93\LaravelSimpleSitemap\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ValidationsTest extends TestCase
 {
@@ -78,9 +79,8 @@ class ValidationsTest extends TestCase
             [null],
             [1],
             [""],
-            [
-                [1]
-            ],
+            [[1]],
+            [['a' => 'ok', 'b' => [1, 2]]],
         ];
     }
 
@@ -113,9 +113,8 @@ class ValidationsTest extends TestCase
             [new \DateTime()],
         ];
     }
-    /**
-     * @dataProvider get_valid_data_for_test
-     */
+    /** @dataProvider get_valid_data_for_test */
+    #[DataProvider('get_valid_data_for_test')]
     public function test_0($priority, $frequency, $parameters, $lastUpdate)
     {
         $data = [
@@ -130,9 +129,8 @@ class ValidationsTest extends TestCase
         $this->assertNull($result);
     }
 
-    /**
-     * @dataProvider get_invalid_data_for_test
-     */
+    /** @dataProvider get_invalid_data_for_test */
+    #[DataProvider('get_invalid_data_for_test')]
     public function test_1($priority, $frequency, $parameters, $lastUpdate)
     {
         $data = [
@@ -147,9 +145,8 @@ class ValidationsTest extends TestCase
         Validations::validate($data);
     }
 
-    /**
-     * @dataProvider get_invalid_data_for_priority_test
-     */
+    /** @dataProvider get_invalid_data_for_priority_test */
+    #[DataProvider('get_invalid_data_for_priority_test')]
     public function test_priority_0($priority)
     {
         $this->expectException(SitemapException::class);
@@ -158,9 +155,8 @@ class ValidationsTest extends TestCase
         Validations::validatePriority($priority);
     }
 
-    /**
-     * @dataProvider get_valid_data_for_priority_test
-     */
+    /** @dataProvider get_valid_data_for_priority_test */
+    #[DataProvider('get_valid_data_for_priority_test')]
     public function test_priority_1($priority)
     {
         Validations::validatePriority($priority);
@@ -168,9 +164,8 @@ class ValidationsTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @dataProvider get_invalid_data_for_frequency_test
-     */
+    /** @dataProvider get_invalid_data_for_frequency_test */
+    #[DataProvider('get_invalid_data_for_frequency_test')]
     public function test_frequency_0($frequency)
     {
         $this->expectException(SitemapException::class);
@@ -179,9 +174,8 @@ class ValidationsTest extends TestCase
         Validations::validateFrequency($frequency);
     }
 
-    /**
-     * @dataProvider get_valid_data_for_frequency_test
-     */
+    /** @dataProvider get_valid_data_for_frequency_test */
+    #[DataProvider('get_valid_data_for_frequency_test')]
     public function test_frequency_1($frequency)
     {
         Validations::validateFrequency($frequency);
@@ -189,9 +183,8 @@ class ValidationsTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @dataProvider get_invalid_data_for_parameters_test
-     */
+    /** @dataProvider get_invalid_data_for_parameters_test */
+    #[DataProvider('get_invalid_data_for_parameters_test')]
     public function test_parameters_0($parameters)
     {
         $this->expectException(SitemapException::class);
@@ -200,9 +193,8 @@ class ValidationsTest extends TestCase
         Validations::validateParameters($parameters);
     }
 
-    /**
-     * @dataProvider get_valid_data_for_parameters_test
-     */
+    /** @dataProvider get_valid_data_for_parameters_test */
+    #[DataProvider('get_valid_data_for_parameters_test')]
     public function test_parameters_1($parameters)
     {
         Validations::validateParameters($parameters);
@@ -210,9 +202,8 @@ class ValidationsTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @dataProvider get_invalid_data_for_lastUpdate_test
-     */
+    /** @dataProvider get_invalid_data_for_lastUpdate_test */
+    #[DataProvider('get_invalid_data_for_lastUpdate_test')]
     public function test_lastUpdate_0($lastUpdate)
     {
         $this->expectException(SitemapException::class);
@@ -221,9 +212,8 @@ class ValidationsTest extends TestCase
         Validations::validateLastUpdate($lastUpdate);
     }
 
-    /**
-     * @dataProvider get_valid_data_for_lastUpdate_test
-     */
+    /** @dataProvider get_valid_data_for_lastUpdate_test */
+    #[DataProvider('get_valid_data_for_lastUpdate_test')]
     public function test_lastUpdate_1($lastUpdate)
     {
         Validations::validateLastUpdate($lastUpdate);

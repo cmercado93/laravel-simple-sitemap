@@ -1,6 +1,6 @@
 <?php
 
-namespace package\tests\Unit;
+namespace Cmercado93\LaravelSimpleSitemap\Tests\Unit;
 
 use Cmercado93\LaravelSimpleSitemap\Common\Frequency;
 use Cmercado93\LaravelSimpleSitemap\Controller\SiteMapController;
@@ -83,7 +83,10 @@ class SiteMapControllerTest extends TestCase
 
         $result = $this->invokeProtectedMethod('makeSiteMap', $urls);
 
-        $this->assertNull($result);
+        $this->assertXmlStringEqualsXmlString(
+            '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>',
+            $result
+        );
     }
 
     public function test_prepareRoutes_0()
